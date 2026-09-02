@@ -11,7 +11,10 @@ import sys
 from typing import Any, Iterable
 
 from .config import CONFIG_SCHEMA_VERSION
-from .provider import PROVIDER_CONTRACT_VERSION
+from .provider import (
+    PROVIDER_CONTRACT_VERSION,
+    default_provider_install_command,
+)
 
 
 def _resolve_python(value: str | Path | None) -> Path:
@@ -70,8 +73,9 @@ def discover_provider(python_executable: str | Path | None = None) -> dict[str, 
         detail = completed.stderr.strip() or completed.stdout.strip()
         raise RuntimeError(
             "A compatible denoise-learn provider was not discovered in "
-            f"{executable}. Install it with: \"{executable}\" -m pip install "
-            f"\"denoise-learn[inference]\". Provider detail: {detail}"
+            f"{executable}. Install it with: "
+            f"{default_provider_install_command(str(executable))}. "
+            f"Provider detail: {detail}"
         )
     try:
         capabilities = json.loads(completed.stdout)
@@ -221,6 +225,7 @@ def initialize_config(
             "module": "denoiselearn.provider.worker",
             "distribution": "denoise-learn",
             "minimum_version": provider_version,
+            "install_hint": default_provider_install_command("{python}"),
         },
         "defaults": {
             "comparison_policy": "clipped_0_1",

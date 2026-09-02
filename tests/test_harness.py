@@ -20,7 +20,11 @@ from denoise_harness.diagnostics import (
 )
 from denoise_harness.image_io import normalize_image
 from denoise_harness.initialization import initialize_config, parse_assignments
-from denoise_harness.provider import doctor
+from denoise_harness.provider import (
+    PROVIDER_REPOSITORY_URL,
+    default_provider_install_command,
+    doctor,
+)
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -115,6 +119,7 @@ def test_example_config_is_portable() -> None:
     config = load_harness_config(REPOSITORY_ROOT / "configs" / "config.example.json")
     assert set(config.methods) == {"mtflearn_fft", "mtflearn_svd"}
     assert config.methods["mtflearn_fft"].defaults["p"] == 0.01
+    assert PROVIDER_REPOSITORY_URL in str(config.provider.install_hint)
     assert config.source_path.is_absolute()
 
 
@@ -127,6 +132,7 @@ def test_init_discovers_classical_method_and_guides_checkpoint() -> None:
         assert result["checkpoint_guidance"][0]["identifier"] == "asn_gen1"
         assert payload["schema_version"] == "scientific-denoise-harness-config-v1"
         assert payload["methods"][0]["python_executable"] == str(Path(sys.executable).resolve())
+        assert PROVIDER_REPOSITORY_URL in payload["provider"]["install_hint"]
         assert result["next_command"].startswith("denoise doctor")
         assert result["checkpoint_guidance"][0]["action"].startswith(
             "Run denoise init --force"
@@ -158,7 +164,13 @@ def test_doctor_guides_denoise_learn_installation() -> None:
         report = doctor(config)
         assert report["status"] == "blocked"
         assert any("pip install" in item for item in report["recommendations"])
-        assert any("denoise-learn" in item for item in report["recommendations"])
+        assert any(PROVIDER_REPOSITORY_URL in item for item in report["recommendations"])
+
+
+def test_default_provider_install_command_uses_public_github_repository() -> None:
+    command = default_provider_install_command("python")
+    assert PROVIDER_REPOSITORY_URL in command
+    assert "denoise-learn[inference]" in command
 
 
 def test_normalization_and_metric_boundaries() -> None:
@@ -221,3 +233,4 @@ def test_doctor_without_config_returns_actionable_json() -> None:
         payload = json.loads(completed.stdout)
         assert payload["status"] == "blocked"
         assert any("denoise init" in item for item in payload["recommendations"])
+        assert any(PROVIDER_REPOSITORY_URL in item for item in payload["recommendations"])

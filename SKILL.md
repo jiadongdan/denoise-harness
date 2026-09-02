@@ -17,8 +17,10 @@ computation remains in the separately installed `denoise-learn` provider.
 1. Run `denoise doctor`. If the command is missing, explain that the Harness Python
    package must be installed from this repository; do not install without permission.
 2. If `doctor` or `init` reports that `denoise-learn` is missing, present its exact
-   installation recommendation. Never copy source from another checkout or silently
-   install a dependency.
+   public GitHub installation recommendation:
+   `python -m pip install "denoise-learn[inference] @ git+https://github.com/jiadongdan/denoise-learn.git@main"`.
+   Never copy source from another checkout or install a dependency without user
+   authorization.
 3. If no config exists, run `denoise init`. Classical methods that need no checkpoint
    may be configured immediately. Report checkpoint guidance for optional neural
    methods; never search for or download checkpoint files.

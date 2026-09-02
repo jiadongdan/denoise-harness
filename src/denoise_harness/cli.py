@@ -13,7 +13,7 @@ from . import __version__
 from .config import load_harness_config
 from .image_io import inspect_input
 from .initialization import initialize_config, parse_assignments
-from .provider import doctor
+from .provider import default_provider_install_command, doctor
 from .workflow import DenoiseHarness
 
 
@@ -121,7 +121,8 @@ def _missing_config_report(path: Path) -> dict[str, Any]:
         "issues": ["The denoise-harness configuration does not exist."],
         "recommendations": [
             f'denoise init --output "{path}"',
-            'If denoise-learn is missing, install it with: python -m pip install "denoise-learn[inference]"',
+            "If denoise-learn is missing, install it from the public repository: "
+            + default_provider_install_command("python"),
         ],
     }
 

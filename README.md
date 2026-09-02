@@ -48,11 +48,13 @@ cd denoise-harness
 python -m pip install .
 ```
 
-Install the external numerical provider separately:
+Install the external numerical provider from its public GitHub repository:
 
 ```bash
-python -m pip install "denoise-learn[inference]"
+python -m pip install "denoise-learn[inference] @ git+https://github.com/jiadongdan/denoise-learn.git@main"
 ```
+
+Provider source: [jiadongdan/denoise-learn](https://github.com/jiadongdan/denoise-learn)
 
 Then initialize and check the runtime:
 
@@ -62,7 +64,8 @@ denoise doctor
 ```
 
 If `denoise-learn` is not installed, `denoise init` returns structured JSON containing
-the exact installation recommendation. Neural checkpoint paths can be added during
+the same public repository installation command. The Harness never installs it
+without user authorization. Neural checkpoint paths can be added during
 initialization without copying weights into this repository:
 
 ```bash

@@ -6,7 +6,8 @@
     "name": "denoise-learn",
     "module": "denoiselearn.provider.worker",
     "distribution": "denoise-learn",
-    "minimum_version": "0.1.0"
+    "minimum_version": "0.1.0",
+    "install_hint": "\"{python}\" -m pip install \"denoise-learn[inference] @ git+https://github.com/jiadongdan/denoise-learn.git@main\""
   },
   "defaults": {
     "comparison_policy": "clipped_0_1",

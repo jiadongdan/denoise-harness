@@ -17,6 +17,16 @@ from .config import HarnessConfig, MethodConfig
 
 WORKER_SCHEMA_VERSION = "scientific-denoise-worker-v1"
 PROVIDER_CONTRACT_VERSION = "denoise-learn-provider-v1"
+PROVIDER_REPOSITORY_URL = "https://github.com/jiadongdan/denoise-learn"
+PROVIDER_INSTALL_REQUIREMENT = (
+    "denoise-learn[inference] @ "
+    "git+https://github.com/jiadongdan/denoise-learn.git@main"
+)
+
+
+def default_provider_install_command(python_executable: str) -> str:
+    """Return the public GitHub installation command for denoise-learn."""
+    return f'"{python_executable}" -m pip install "{PROVIDER_INSTALL_REQUIREMENT}"'
 
 
 def _version_tuple(value: str) -> tuple[int, ...] | None:
@@ -106,10 +116,7 @@ def _install_command(config: HarnessConfig, python_executable: str) -> str:
             f'"{python_executable}" -m pip install -e '
             f'"{config.provider.source_root}[inference]"'
         )
-    return (
-        f'"{python_executable}" -m pip install '
-        f'"{config.provider.distribution}[inference]"'
-    )
+    return default_provider_install_command(python_executable)
 
 
 def run_provider_array(
