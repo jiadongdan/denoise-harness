@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+build/
+dist/
+.venv/
+venv/
+denoise-harness.json
+denoise-runs/
+*.pt
+*.pth
+*.ckpt
+*.safetensors

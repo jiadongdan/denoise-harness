@@ -1,0 +1,4 @@
+interface:
+  display_name: "Denoise Harness"
+  short_description: "Run reproducible scientific image denoising"
+  default_prompt: "Use $denoise-harness to inspect and denoise this single-channel scientific image with validated local methods."

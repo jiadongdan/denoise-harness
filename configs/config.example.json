@@ -1,0 +1,65 @@
+{
+  "schema_version": "scientific-denoise-harness-config-v1",
+  "project_root": ".",
+  "output_root": "denoise-runs",
+  "provider": {
+    "name": "denoise-learn",
+    "module": "denoiselearn.provider.worker",
+    "distribution": "denoise-learn",
+    "minimum_version": "0.1.0"
+  },
+  "defaults": {
+    "comparison_policy": "clipped_0_1",
+    "input_normalization": "minmax_0_1",
+    "reference_normalization": "minmax_0_1",
+    "search_budget": 6,
+    "timeout_seconds": 900
+  },
+  "methods": [
+    {
+      "identifier": "mtflearn_fft",
+      "kind": "mtflearn_fft",
+      "family": "classical_fft",
+      "implementation_version": "provider-managed",
+      "python_executable": "auto",
+      "device_kind": "cpu",
+      "internal_input_range": [0.0, 1.0],
+      "raw_output_range": "unbounded",
+      "size_multiple": 1,
+      "postprocess": "native_unit",
+      "defaults": {"p": 0.01},
+      "parameter_schema": {
+        "p": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 1.0,
+          "candidates": [0.01, 0.02, 0.05, 0.1, 0.2]
+        }
+      }
+    },
+    {
+      "identifier": "mtflearn_svd",
+      "kind": "mtflearn_svd",
+      "family": "classical_svd",
+      "implementation_version": "provider-managed",
+      "python_executable": "auto",
+      "device_kind": "cpu",
+      "internal_input_range": [0.0, 1.0],
+      "raw_output_range": "unbounded",
+      "size_multiple": 1,
+      "postprocess": "native_unit",
+      "defaults": {"patch_size": 32, "n_components": 64, "random_seed": 0},
+      "parameter_schema": {
+        "patch_size": {"type": "integer", "minimum": 2},
+        "n_components": {"type": "integer", "minimum": 1},
+        "random_seed": {"type": "integer", "minimum": 0},
+        "candidate_pairs": [
+          {"patch_size": 8, "n_components": 4},
+          {"patch_size": 16, "n_components": 8},
+          {"patch_size": 32, "n_components": 16},
+          {"patch_size": 32, "n_components": 64}
+        ]
+      }
+    }
+  ]
+}
