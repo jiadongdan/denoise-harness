@@ -168,7 +168,7 @@ class DenoiseHarness:
         for identifier in selected:
             method = self.config.methods[identifier]
             requested = dict(supplied.get(identifier, {}))
-            if auto_ml_parameters and method.kind in {"mtflearn_fft", "mtflearn_svd"} and not requested:
+            if auto_ml_parameters and method.kind in {"fft", "svd"} and not requested:
                 normalized[identifier] = {}
             else:
                 normalized[identifier] = validate_method_options(method, requested)
@@ -440,7 +440,7 @@ class DenoiseHarness:
                 requested_options = dict(plan.method_options.get(identifier, {}))
                 use_search = (
                     plan.auto_ml_parameters
-                    and method.kind in {"mtflearn_fft", "mtflearn_svd"}
+                    and method.kind in {"fft", "svd"}
                     and not requested_options
                 )
                 if use_search:

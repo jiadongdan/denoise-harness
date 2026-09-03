@@ -54,8 +54,8 @@ def _capabilities() -> dict[str, object]:
         "provider_version": "0.1.0",
         "methods": [
             {
-                "identifier": "mtflearn_fft",
-                "kind": "mtflearn_fft",
+                "identifier": "fft",
+                "kind": "fft",
                 "family": "classical_fft",
                 "available": True,
                 "defaults": {"p": 0.01},
@@ -117,8 +117,8 @@ def test_skill_is_host_and_workspace_neutral() -> None:
 
 def test_example_config_is_portable() -> None:
     config = load_harness_config(REPOSITORY_ROOT / "configs" / "config.example.json")
-    assert set(config.methods) == {"mtflearn_fft", "mtflearn_svd"}
-    assert config.methods["mtflearn_fft"].defaults["p"] == 0.01
+    assert set(config.methods) == {"fft", "svd"}
+    assert config.methods["fft"].defaults["p"] == 0.01
     assert PROVIDER_REPOSITORY_URL in str(config.provider.install_hint)
     assert config.source_path.is_absolute()
 
@@ -128,7 +128,7 @@ def test_init_discovers_classical_method_and_guides_checkpoint() -> None:
         output = Path(temporary) / "denoise-harness.json"
         result = initialize_config(output, capabilities=_capabilities())
         payload = json.loads(output.read_text(encoding="utf-8"))
-        assert result["enabled_methods"] == ["mtflearn_fft"]
+        assert result["enabled_methods"] == ["fft"]
         assert result["checkpoint_guidance"][0]["identifier"] == "asn_gen1"
         assert payload["schema_version"] == "scientific-denoise-harness-config-v1"
         assert payload["methods"][0]["python_executable"] == str(Path(sys.executable).resolve())

@@ -18,8 +18,8 @@
   },
   "methods": [
     {
-      "identifier": "mtflearn_fft",
-      "kind": "mtflearn_fft",
+      "identifier": "fft",
+      "kind": "fft",
       "family": "classical_fft",
       "implementation_version": "provider-managed",
       "python_executable": "auto",
@@ -39,8 +39,8 @@
       }
     },
     {
-      "identifier": "mtflearn_svd",
-      "kind": "mtflearn_svd",
+      "identifier": "svd",
+      "kind": "svd",
       "family": "classical_svd",
       "implementation_version": "provider-managed",
       "python_executable": "auto",

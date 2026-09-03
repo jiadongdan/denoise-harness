@@ -13,7 +13,7 @@ from .contracts import MethodMetadata
 
 
 CONFIG_SCHEMA_VERSION = "scientific-denoise-harness-config-v1"
-SUPPORTED_METHOD_KINDS = {"mtflearn_fft", "mtflearn_svd", "asn"}
+SUPPORTED_METHOD_KINDS = {"fft", "svd", "asn"}
 
 
 @dataclass(frozen=True)

@@ -106,7 +106,7 @@ Examples:
 denoise methods
 denoise inspect --input image.tif
 denoise run --input image.tif --methods all
-denoise run --input noisy.tif --reference clean.tif --methods mtflearn_fft mtflearn_svd
+denoise run --input noisy.tif --reference clean.tif --methods fft svd
 denoise reproduce --record denoise-runs/<run-id>/run_record.json
 ```
 

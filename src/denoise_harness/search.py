@@ -88,8 +88,8 @@ def generate_candidates(
     """Return deterministic candidates for one supported tunable method."""
     if budget < 1:
         raise ValueError("Search budget must be positive.")
-    if method.kind == "mtflearn_fft":
+    if method.kind == "fft":
         return fft_candidates(method, image, budget)
-    if method.kind == "mtflearn_svd":
+    if method.kind == "svd":
         return svd_candidates(method, image, budget)
     raise ValueError(f"Method does not support parameter search: {method.metadata.identifier}")
